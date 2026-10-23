@@ -1,0 +1,152 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id          String        @id @default(cuid())
+  name        String
+  email       String        @unique
+  password    String
+
+  role        String        @default("student")
+  plan        String        @default("free")
+
+  createdAt   DateTime      @default(now())
+
+  enrollments Enrollment[]
+  orders      Order[]
+  certificates Certificate[]
+}
+
+model Course {
+  id          String        @id @default(cuid())
+
+  title       String
+  description String
+
+  thumbnail   String?
+
+  premium     Boolean       @default(false)
+
+  createdAt   DateTime      @default(now())
+
+  lessons     Lesson[]
+
+  enrollments Enrollment[]
+}
+
+model Lesson {
+  id          String       @id @default(cuid())
+
+  title       String
+
+  content     String?
+
+  videoUrl    String?
+
+  imageUrl    String?
+
+  pdfUrl      String?
+
+  premium     Boolean      @default(false)
+
+  courseId    String
+
+  course      Course @relation(
+    fields: [courseId],
+    references: [id]
+  )
+
+  createdAt   DateTime @default(now())
+}
+
+model Enrollment {
+  id          String   @id @default(cuid())
+
+  userId      String
+  courseId    String
+
+  user        User   @relation(
+    fields: [userId],
+    references: [id]
+  )
+
+  course      Course @relation(
+    fields: [courseId],
+    references: [id]
+  )
+
+  createdAt   DateTime @default(now())
+}
+
+model Product {
+  id           String @id @default(cuid())
+
+  title        String
+
+  description  String
+
+  image        String?
+
+  fileUrl      String?
+
+  price        Float
+
+  createdAt    DateTime @default(now())
+
+  orders       Order[]
+}
+
+model Order {
+  id           String @id @default(cuid())
+
+  userId       String
+
+  productId    String
+
+  amount       Float
+
+  createdAt    DateTime @default(now())
+
+  user User @relation(
+    fields: [userId],
+    references: [id]
+  )
+
+  product Product @relation(
+    fields: [productId],
+    references: [id]
+  )
+}
+
+model Certificate {
+  id          String @id @default(cuid())
+
+  userId      String
+
+  courseName  String
+
+  issuedAt    DateTime @default(now())
+
+  user User @relation(
+    fields: [userId],
+    references: [id]
+  )
+}
+
+model BrokerReferral {
+  id          String @id @default(cuid())
+
+  brokerName  String
+
+  referralUrl String
+
+  category    String
+
+  createdAt   DateTime @default(now())
+}
