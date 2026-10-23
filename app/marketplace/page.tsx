@@ -1,86 +1,32 @@
+import Link from "next/link";
 import Navbar from "@/components/Navbar";
+
+const resources = [
+  { title: "Trading Journal Pro", description: "A structured journal template for reviewing your trading decisions.", price: "$19" },
+  { title: "Strategy Pack", description: "Educational worksheets for documenting and testing trading ideas.", price: "$49" },
+  { title: "Premium Toolkit", description: "A collection of educational planning and analysis resources.", price: "$99" },
+];
 
 export default function Marketplace() {
   return (
     <>
       <Navbar />
-
-      <main className="min-h-screen bg-slate-950 text-white p-10">
-
-        <h1 className="text-5xl font-bold mb-10">
-          Marketplace
-        </h1>
-
-        <div className="grid md:grid-cols-3 gap-6">
-
-          <div className="bg-slate-900 p-6 rounded-xl">
-
-            /products/bot1.jpg
-
-            <h2 className="text-2xl font-bold mt-4">
-              Trading Journal Pro
-            </h2>
-
-            <p className="mt-2">
-              Professional trading journal.
-            </p>
-
-            <p className="text-green-400 mt-4">
-              $19
-            </p>
-
-            <button className="w-full mt-4 bg-green-600 p-3 rounded">
-              Buy Now
-            </button>
-
+      <main className="min-h-screen bg-slate-950 px-5 py-12 text-white sm:px-8">
+        <div className="mx-auto max-w-7xl">
+          <h1 className="text-4xl font-bold sm:text-5xl">Marketplace</h1>
+          <p className="mt-3 max-w-2xl text-slate-300">Explore educational resources to support your market study. Checkout is not configured yet.</p>
+          <div className="mt-9 grid gap-6 md:grid-cols-3">
+            {resources.map((resource) => (
+              <article key={resource.title} className="rounded-2xl border border-slate-800 bg-slate-900 p-6">
+                <div className="flex h-36 items-center justify-center rounded-xl bg-slate-800 text-sm text-slate-400">Educational resource</div>
+                <h2 className="mt-5 text-2xl font-bold">{resource.title}</h2>
+                <p className="mt-3 min-h-16 text-slate-300">{resource.description}</p>
+                <p className="mt-4 text-xl font-semibold text-emerald-400">{resource.price}</p>
+                <Link href="/login" className="mt-5 block rounded-lg bg-emerald-500 px-4 py-3 text-center font-semibold text-slate-950">Sign in to continue</Link>
+              </article>
+            ))}
           </div>
-
-          <div className="bg-slate-900 p-6 rounded-xl">
-
-            /products/strategy.jpg
-
-            <h2 className="text-2xl font-bold mt-4">
-              Strategy Pack
-            </h2>
-
-            <p className="mt-2">
-              Educational trading templates.
-            </p>
-
-            <p className="text-green-400 mt-4">
-              $49
-            </p>
-
-            <button className="w-full mt-4 bg-green-600 p-3 rounded">
-              Buy Now
-            </button>
-
-          </div>
-
-          <div className="bg-slate-900 p-6 rounded-xl">
-
-            /products/toolkit.jpg
-
-            <h2 className="text-2xl font-bold mt-4">
-              Premium Toolkit
-            </h2>
-
-            <p className="mt-2">
-              Educational resources bundle.
-            </p>
-
-            <p className="text-green-400 mt-4">
-              $99
-            </p>
-
-            <button className="w-full mt-4 bg-green-600 p-3 rounded">
-              Buy Now
-            </button>
-
-          </div>
-
         </div>
-
       </main>
     </>
   );

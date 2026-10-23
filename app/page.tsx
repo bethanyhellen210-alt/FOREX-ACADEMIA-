@@ -1,237 +1,67 @@
 import Link from "next/link";
 
+const markets = [
+  { title: "Forex", detail: "EUR/USD · GBP/USD · USD/JPY" },
+  { title: "Gold", detail: "XAU/USD education" },
+  { title: "Bitcoin", detail: "BTC/USD education" },
+  { title: "Digital markets", detail: "Volatility indices and digit markets" },
+];
+const topics = [
+  { title: "Technical analysis", items: ["Support and resistance", "Market structure", "Candlestick patterns", "Trend analysis"] },
+  { title: "Risk management", items: ["Position sizing", "Risk-to-reward", "Capital protection", "Trade journals"] },
+  { title: "Trading psychology", items: ["Discipline", "Patience", "Mindset", "Performance review"] },
+];
+
 export default function Home() {
   return (
-    <main className="bg-slate-950 text-white min-h-screen">
+    <main className="min-h-screen bg-slate-950 text-white">
+      <header className="border-b border-slate-800">
+        <nav className="mx-auto flex max-w-7xl items-center justify-between px-5 py-5">
+          <Link href="/" className="text-xl font-bold tracking-wide">FOREX ACADEMIA</Link>
+          <div className="flex flex-wrap items-center gap-4 text-sm text-slate-300">
+            <Link href="/courses" className="hover:text-white">Courses</Link>
+            <Link href="/marketplace" className="hover:text-white">Marketplace</Link>
+            <Link href="/pricing" className="hover:text-white">Pricing</Link>
+            <Link href="/login" className="hover:text-white">Sign in</Link>
+            <Link href="/register" className="rounded-lg bg-emerald-500 px-4 py-2 font-semibold text-slate-950 hover:bg-emerald-400">Join academy</Link>
+          </div>
+        </nav>
+      </header>
 
-      {/* Hero */}
-
-      <section className="px-10 py-24 text-center">
-
-        <h1 className="text-6xl font-bold">
-          Master Forex, Gold, Bitcoin &
-          Digital Markets
-        </h1>
-
-        <p className="mt-6 text-xl text-gray-300 max-w-3xl mx-auto">
-          Learn Forex, Gold, Bitcoin, Volatility Indices,
-          Risk Management, Trading Psychology and Professional
-          Market Analysis through structured educational courses.
-        </p>
-
-        <div className="flex justify-center gap-4 mt-10">
-
-          /register
-            Start Learning
-          </Link>
-
-          /courses
-            View Courses
-          </Link>
-
+      <section className="mx-auto max-w-6xl px-5 py-20 text-center sm:py-28">
+        <p className="mb-5 text-sm font-semibold uppercase tracking-[0.25em] text-emerald-400">Learn · Practice · Improve</p>
+        <h1 className="mx-auto max-w-4xl text-4xl font-bold leading-tight sm:text-6xl">Master Forex, Gold, Bitcoin and Digital Markets</h1>
+        <p className="mx-auto mt-6 max-w-3xl text-lg leading-8 text-slate-300">Build your market knowledge through structured lessons in technical analysis, risk management, trading psychology and market research.</p>
+        <div className="mt-9 flex flex-wrap justify-center gap-4">
+          <Link href="/register" className="rounded-lg bg-emerald-500 px-6 py-3 font-semibold text-slate-950 hover:bg-emerald-400">Start learning</Link>
+          <Link href="/courses" className="rounded-lg border border-slate-600 px-6 py-3 font-semibold hover:bg-slate-900">Explore courses</Link>
         </div>
-
       </section>
 
-      {/* Markets */}
-
-      <section className="max-w-7xl mx-auto px-8 py-20">
-
-        <h2 className="text-4xl font-bold text-center">
-          Markets Covered
-        </h2>
-
-        <div className="grid md:grid-cols-4 gap-6 mt-10">
-
-          <div className="bg-slate-900 p-6 rounded-xl">
-            <h3 className="text-2xl font-bold">
-              Forex
-            </h3>
-            <p>EUR/USD GBP/USD USD/JPY</p>
-          </div>
-
-          <div className="bg-slate-900 p-6 rounded-xl">
-            <h3 className="text-2xl font-bold">
-              Gold
-            </h3>
-            <p>XAU/USD Education</p>
-          </div>
-
-          <div className="bg-slate-900 p-6 rounded-xl">
-            <h3 className="text-2xl font-bold">
-              Bitcoin
-            </h3>
-            <p>BTC/USD Education</p>
-          </div>
-
-          <div className="bg-slate-900 p-6 rounded-xl">
-            <h3 className="text-2xl font-bold">
-              Digital Markets
-            </h3>
-            <p>Volatility & Digits</p>
-          </div>
-
+      <section className="mx-auto max-w-7xl px-5 py-14">
+        <h2 className="text-center text-3xl font-bold sm:text-4xl">Markets covered</h2>
+        <div className="mt-8 grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
+          {markets.map((market) => <article key={market.title} className="rounded-2xl border border-slate-800 bg-slate-900 p-6"><h3 className="text-xl font-bold">{market.title}</h3><p className="mt-3 text-slate-300">{market.detail}</p></article>)}
         </div>
-
       </section>
 
-      {/* Features */}
-
-      <section className="max-w-7xl mx-auto px-8 py-20">
-
-        <h2 className="text-4xl font-bold text-center">
-          What You'll Learn
-        </h2>
-
-        <div className="grid md:grid-cols-3 gap-6 mt-10">
-
-          <div className="bg-slate-900 rounded-xl p-6">
-            <h3 className="text-2xl font-bold">
-              Technical Analysis
-            </h3>
-
-            <ul className="mt-4 space-y-2">
-              <li>Support & Resistance</li>
-              <li>Market Structure</li>
-              <li>Candlesticks</li>
-              <li>Trend Analysis</li>
-            </ul>
-          </div>
-
-          <div className="bg-slate-900 rounded-xl p-6">
-            <h3 className="text-2xl font-bold">
-              Risk Management
-            </h3>
-
-            <ul className="mt-4 space-y-2">
-              <li>Position Sizing</li>
-              <li>Risk Reward</li>
-              <li>Capital Protection</li>
-              <li>Trade Journals</li>
-            </ul>
-          </div>
-
-          <div className="bg-slate-900 rounded-xl p-6">
-            <h3 className="text-2xl font-bold">
-              Trading Psychology
-            </h3>
-
-            <ul className="mt-4 space-y-2">
-              <li>Discipline</li>
-              <li>Patience</li>
-              <li>Mindset</li>
-              <li>Performance Growth</li>
-            </ul>
-          </div>
-
+      <section className="mx-auto max-w-7xl px-5 py-14">
+        <h2 className="text-center text-3xl font-bold sm:text-4xl">What you’ll learn</h2>
+        <div className="mt-8 grid gap-5 md:grid-cols-3">
+          {topics.map((topic) => <article key={topic.title} className="rounded-2xl border border-slate-800 bg-slate-900 p-6"><h3 className="text-xl font-bold">{topic.title}</h3><ul className="mt-4 space-y-2 text-slate-300">{topic.items.map((item) => <li key={item}>• {item}</li>)}</ul></article>)}
         </div>
-
       </section>
 
-      {/* Premium */}
-
-      <section className="bg-slate-900 py-24">
-
-        <div className="max-w-6xl mx-auto text-center">
-
-          <h2 className="text-5xl font-bold">
-            Premium Academy
-          </h2>
-
-          <p className="mt-5 text-gray-300">
-            Unlock Advanced Lessons, Certificates,
-            Downloads, Premium Videos & Live Sessions.
-          </p>
-
-          <div className="mt-8">
-
-            /pricing
-              Upgrade To Premium
-            </Link>
-
-          </div>
-
-        </div>
-
+      <section className="mx-5 my-12 rounded-3xl border border-slate-800 bg-slate-900 px-5 py-14 text-center sm:mx-auto sm:max-w-6xl sm:px-10">
+        <h2 className="text-3xl font-bold sm:text-4xl">Take your learning further</h2>
+        <p className="mx-auto mt-4 max-w-2xl text-slate-300">Explore membership options, educational resources and course material for your learning journey.</p>
+        <div className="mt-7 flex flex-wrap justify-center gap-4"><Link href="/pricing" className="rounded-lg bg-emerald-500 px-6 py-3 font-semibold text-slate-950">View membership</Link><Link href="/marketplace" className="rounded-lg border border-slate-600 px-6 py-3 font-semibold">Browse resources</Link></div>
       </section>
 
-      {/* Marketplace */}
-
-      <section className="max-w-7xl mx-auto px-8 py-20">
-
-        <h2 className="text-4xl font-bold text-center">
-          Trading Resources Marketplace
-        </h2>
-
-        <div className="grid md:grid-cols-3 gap-6 mt-10">
-
-          <div className="bg-slate-900 p-6 rounded-xl">
-            Trading Journal
-          </div>
-
-          <div className="bg-slate-900 p-6 rounded-xl">
-            Strategy Templates
-          </div>
-
-          <div className="bg-slate-900 p-6 rounded-xl">
-            Educational Trading Tools
-          </div>
-
-        </div>
-
-      </section>
-
-      {/* Brokers */}
-
-      <section className="bg-slate-900 py-20">
-
-        <div className="max-w-4xl mx-auto text-center">
-
-          <h2 className="text-4xl font-bold">
-            Recommended Broker Partners
-          </h2>
-
-          <div className="grid md:grid-cols-2 gap-6 mt-10">
-
-            <div className="p-6 bg-slate-800 rounded-xl">
-              <h3 className="text-2xl font-bold">
-                Forex Broker
-              </h3>
-
-              #
-                Open Account
-              </a>
-            </div>
-
-            <div className="p-6 bg-slate-800 rounded-xl">
-              <h3 className="text-2xl font-bold">
-                Digital Markets Broker
-              </h3>
-
-              #
-                Open Account
-              </a>
-            </div>
-
-          </div>
-
-        </div>
-
-      </section>
-
-      {/* Footer */}
-
-      <footer className="text-center py-10 text-gray-400">
-
-        Educational Purposes Only
-
-        <p className="mt-4">
-          Trading involves substantial risk.
-          This platform does not provide financial advice.
-        </p>
-
+      <footer className="border-t border-slate-800 px-5 py-8 text-center text-sm text-slate-400">
+        <p>Forex Academia · Educational purposes only.</p>
+        <p className="mt-2">Trading involves substantial risk. Educational content is not financial advice or a guarantee of results.</p>
       </footer>
-
     </main>
   );
 }
