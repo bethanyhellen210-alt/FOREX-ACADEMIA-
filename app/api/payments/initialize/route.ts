@@ -17,6 +17,11 @@ export async function POST(request: Request) {
       return NextResponse.json({ error: "Choose a valid membership plan." }, { status: 400 });
     }
 
+    const account = await prisma.user.findUnique({ where: { email } });
+    if (!account) {
+      return NextResponse.json({ error: "Create an account first, then use the same email address for payment." }, { status: 404 });
+    }
+
     const config = paymentConfig();
     const amount = plan === "monthly" ? config.monthlyAmount : config.yearlyAmount;
     if (!Number.isSafeInteger(amount) || amount <= 0) {
