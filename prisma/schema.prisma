@@ -89,3 +89,16 @@ model BrokerReferral {
   category    String
   createdAt   DateTime @default(now())
 }
+
+
+model Payment {
+  id        String   @id @default(cuid())
+  email     String
+  plan      String
+  amount    Int
+  currency  String
+  reference String   @unique
+  status    String   @default("initialized")
+  createdAt DateTime @default(now())
+  paidAt    DateTime?
+}
