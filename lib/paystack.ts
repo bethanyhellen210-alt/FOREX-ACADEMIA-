@@ -67,9 +67,11 @@ export async function reconcilePayment(reference: string) {
     });
     const user = await tx.user.findUnique({ where: { email: payment.email } });
     if (user) {
+      const paidAt = payment.paidAt || new Date();
+      const planExpiresAt = new Date(paidAt.getTime() + (payment.plan === "yearly" ? 365 : 30) * 24 * 60 * 60 * 1000);
       await tx.user.update({
         where: { id: user.id },
-        data: { plan: payment.plan === "yearly" ? "premium-yearly" : "premium-monthly" },
+        data: { plan: payment.plan === "yearly" ? "premium-yearly" : "premium-monthly", planExpiresAt },
       });
     }
   });
