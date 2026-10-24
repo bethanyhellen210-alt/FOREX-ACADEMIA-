@@ -23,7 +23,7 @@ const plans = [
     description: "A year of premium learning access.",
     features: ["All premium learning resources", "Course materials and downloads", "Priority learning resources", "Membership access after verified payment"],
   },
-];
+] as const;
 
 export default function PricingPage() {
   return (
