@@ -30,3 +30,20 @@ The database schema is in `prisma/schema.prisma`. Apply schema changes intention
 The current login, registration, marketplace checkout, and admin forms are UI scaffolding; they do not yet implement complete authentication, payment processing, secure admin authorization, or file uploads. Do not use these screens as production security controls until those workflows are implemented and tested.
 
 Never commit real credentials or production database URLs to Git.
+
+
+## Paystack payments
+
+The membership checkout uses Paystack's server-side transaction initialization and verification APIs. A successful browser redirect alone does not grant membership; the server verifies transaction status, reference, amount, currency, and email. A signed webhook endpoint is available at `/api/payments/webhook`.
+
+### Required Vercel environment variables
+
+- `DATABASE_URL`: PostgreSQL connection string.
+- `PAYSTACK_SECRET_KEY`: Paystack test secret key for testing, then live secret key when ready. Keep it server-only.
+- `PAYSTACK_CURRENCY`: currency enabled for your Paystack account.
+- `PAYSTACK_MONTHLY_AMOUNT` and `PAYSTACK_YEARLY_AMOUNT`: prices in the currency's smallest unit.
+- `NEXT_PUBLIC_SITE_URL`: deployed site origin, for example `https://your-project.vercel.app`.
+
+After adding the `Payment` model, apply the schema to the configured PostgreSQL database using `npx prisma db push` (or your migration workflow), then redeploy. Set the Paystack dashboard webhook URL to `https://YOUR-DOMAIN/api/payments/webhook`.
+
+Test in Paystack test mode first. Do not put secret keys in `NEXT_PUBLIC_*` variables or commit them to Git. Account registration and login use salted scrypt password hashes and an HTTP-only signed session cookie. A payment must use the email on the account; successful verification updates that user's membership plan. The current checkout is a one-time payment for a monthly/yearly access term; it does not automatically renew subscriptions. Review the application and complete end-to-end testing before production launch.
