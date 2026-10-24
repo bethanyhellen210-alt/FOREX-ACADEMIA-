@@ -16,8 +16,11 @@ export async function POST(request: Request) {
     if (!user || !(await verifyPassword(password, user.password))) {
       return NextResponse.json({ error: "Email or password is incorrect." }, { status: 401 });
     }
+    const activeUser = user.planExpiresAt && user.planExpiresAt <= new Date()
+      ? await prisma.user.update({ where: { id: user.id }, data: { plan: "free", planExpiresAt: null } })
+      : user;
     await setSessionCookie(user.id);
-    return NextResponse.json({ success: true, user: { id: user.id, name: user.name, email: user.email, plan: user.plan, role: user.role } });
+    return NextResponse.json({ success: true, user: { id: activeUser.id, name: activeUser.name, email: activeUser.email, plan: activeUser.plan, role: activeUser.role } });
   } catch (error) {
     const message = error instanceof Error ? error.message : "Sign in failed.";
     return NextResponse.json({ error: message }, { status: message.includes("SESSION_SECRET") ? 503 : 500 });
