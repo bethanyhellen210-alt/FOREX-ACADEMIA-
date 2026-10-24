@@ -16,11 +16,14 @@ export async function POST(request: Request) {
     if (await prisma.user.findUnique({ where: { email } })) return NextResponse.json({ error: "An account with this email already exists. Sign in instead." }, { status: 409 });
 
     const paid = await prisma.payment.findFirst({
-      where: { email, status: "success" },
+      where: { email, status: "success", paidAt: { not: null } },
       orderBy: { paidAt: "desc" },
     });
-    const plan = paid ? (paid.plan === "yearly" ? "premium-yearly" : "premium-monthly") : "free";
-    const user = await prisma.user.create({ data: { name, email, password: await hashPassword(password), plan } });
+    const paidAt = paid?.paidAt || null;
+    const planExpiresAt = paid && paidAt ? new Date(paidAt.getTime() + (paid.plan === "yearly" ? 365 : 30) * 24 * 60 * 60 * 1000) : null;
+    const activePaidPlan = Boolean(paid && planExpiresAt && planExpiresAt > new Date());
+    const plan = activePaidPlan && paid ? (paid.plan === "yearly" ? "premium-yearly" : "premium-monthly") : "free";
+    const user = await prisma.user.create({ data: { name, email, password: await hashPassword(password), plan, planExpiresAt: activePaidPlan ? planExpiresAt : null } });
     await setSessionCookie(user.id);
     return NextResponse.json({ success: true, user: { id: user.id, name: user.name, email: user.email, plan: user.plan } }, { status: 201 });
   } catch (error) {
