@@ -54,7 +54,11 @@ export async function getSessionUser() {
     if (expected.length !== actual.length || !timingSafeEqual(expected, actual)) return null;
     const data = JSON.parse(Buffer.from(payload, "base64url").toString("utf8"));
     if (!data.userId || !Number.isFinite(data.exp) || data.exp < Date.now()) return null;
-    return prisma.user.findUnique({ where: { id: data.userId }, select: { id: true, name: true, email: true, role: true, plan: true } });
+    const user = await prisma.user.findUnique({ where: { id: data.userId }, select: { id: true, name: true, email: true, role: true, plan: true, planExpiresAt: true } });
+    if (user?.planExpiresAt && user.planExpiresAt <= new Date()) {
+      return prisma.user.update({ where: { id: user.id }, data: { plan: "free", planExpiresAt: null }, select: { id: true, name: true, email: true, role: true, plan: true, planExpiresAt: true } });
+    }
+    return user;
   } catch {
     return null;
   }
